@@ -1,4 +1,4 @@
-//Add a new User
+Add a new User:
 http://localhost:8080/rest/benutzer/new_user
 {
     "vorname": "Fabian",
@@ -11,3 +11,6 @@ http://localhost:8080/rest/benutzer/new_user
     "urlaube": null,
     "auftraege": null
 }
+
+
+http://localhost:8080/rest/benutzer/login_credentials/fabian.schnoetzinger@outlook.com/Hello

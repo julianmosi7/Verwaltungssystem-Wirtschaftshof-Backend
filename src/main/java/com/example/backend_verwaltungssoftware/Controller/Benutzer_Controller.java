@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -19,22 +20,24 @@ public class Benutzer_Controller {
 
     @PostMapping(path = "/new_user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Benutzer create_benutzer(@RequestBody Benutzer benutzer){
+        String encodePassword = Base64.getEncoder().encodeToString(benutzer.getPasswort().getBytes());
+        benutzer.setPasswort(encodePassword);
+
         return benutzer_repo.save(benutzer);
     }
 
-    @GetMapping(path = "/login_credentials/{email}/{password}")
-    public Benutzer getUser(@PathVariable("email") String email,
-                            @PathVariable("password") String password){
-
+    @PostMapping(path = "/login_credentials", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Benutzer> getUser(@RequestBody Benutzer user){
         List<Benutzer> allusers = (List<Benutzer>) benutzer_repo.findAll();
+        return allusers;
 
-        for (int i = 0; i < allusers.size(); i++) {
-            if(allusers.get(i).getEmail().equals(email)){
-                if(allusers.get(i).getPasswort().equals(password)){
+        /*for (int i = 0; i < allusers.size(); i++) {
+            if(allusers.get(i).getEmail().equals(user.getEmail())){
+                if(allusers.get(i).getPasswort().equals(user.getPasswort())){
                     return allusers.get(i);
                 }
             }
         }
-        return null;
+        return null;*/
     }
 }
