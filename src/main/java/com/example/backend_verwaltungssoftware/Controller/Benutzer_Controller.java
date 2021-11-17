@@ -1,43 +1,61 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
 import com.example.backend_verwaltungssoftware.Entities.Benutzer;
+import com.example.backend_verwaltungssoftware.Entities.Gemeinde;
+import com.example.backend_verwaltungssoftware.Entities.Rolle;
 import com.example.backend_verwaltungssoftware.Repositories.Benutzer_Repo;
+import com.example.backend_verwaltungssoftware.Repositories.Rolle_Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(value = "/rest/benutzer")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Benutzer_Controller {
 
     @Autowired
-    Benutzer_Repo benutzer_repo;
+    Benutzer_Repo Benutzer_Repo;
+    @Autowired
+    Rolle_Repo Rolle_repo;
 
-    @PostMapping(path = "/new_user", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/newUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Benutzer create_benutzer(@RequestBody Benutzer benutzer){
         String encodePassword = Base64.getEncoder().encodeToString(benutzer.getPasswort().getBytes());
         benutzer.setPasswort(encodePassword);
 
-        return benutzer_repo.save(benutzer);
+        if(benutzer.getRolle() != null){
+            Optional<Rolle> r = Rolle_repo.findById(benutzer.getRolle().getRolle_id());
+            benutzer.setRolle(r.get());
+        }
+
+        if(benutzer.getFührerscheine() != null){
+            for (int i = 0; i < benutzer.getFührerscheine().size(); i++) {
+                benutzer.getFührerscheine().get(i).getFührerschein_id();
+            }
+        }
+
+        return Benutzer_Repo.save(benutzer);
     }
 
-    @PostMapping(path = "/login_credentials", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Benutzer> getUser(@RequestBody Benutzer user){
-        List<Benutzer> allusers = (List<Benutzer>) benutzer_repo.findAll();
-        return allusers;
+    @GetMapping(value = "/loginCredentials", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Benutzer getUser(@RequestBody Benutzer user){
+        String encodePassword = Base64.getEncoder().encodeToString(user.getPasswort().getBytes());
 
-        /*for (int i = 0; i < allusers.size(); i++) {
+        List<Benutzer> allusers = (List<Benutzer>) Benutzer_Repo.findAll();
+
+        for (int i = 0; i < allusers.size(); i++) {
             if(allusers.get(i).getEmail().equals(user.getEmail())){
-                if(allusers.get(i).getPasswort().equals(user.getPasswort())){
+                if(allusers.get(i).getPasswort().equals(encodePassword)){
                     return allusers.get(i);
                 }
             }
         }
-        return null;*/
+
+        return null;
     }
 }
