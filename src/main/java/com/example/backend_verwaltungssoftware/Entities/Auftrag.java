@@ -1,5 +1,8 @@
 package com.example.backend_verwaltungssoftware.Entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
@@ -14,6 +17,7 @@ public class Auftrag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Auftrag_id;
     String auftragnummer;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "gemeinde_id")
     Gemeinde gemeinde;
@@ -27,8 +31,10 @@ public class Auftrag {
             joinColumns = {@JoinColumn(name = "Auftrag_ID")},
             inverseJoinColumns = {@JoinColumn(name = "Personal_ID")})
     List<Benutzer> personal;
+    @JsonFormat(pattern = "dd.MM.yyyy")
     Date start;
     int dauer;
+    @JsonFormat(pattern = "dd.MM.yyyy")
     Date end;
     double fortschritt;
     @ManyToOne

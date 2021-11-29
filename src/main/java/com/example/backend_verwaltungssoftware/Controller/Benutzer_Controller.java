@@ -1,9 +1,10 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
 import com.example.backend_verwaltungssoftware.Entities.Benutzer;
-import com.example.backend_verwaltungssoftware.Entities.Gemeinde;
+import com.example.backend_verwaltungssoftware.Entities.Führerschein;
 import com.example.backend_verwaltungssoftware.Entities.Rolle;
 import com.example.backend_verwaltungssoftware.Repositories.Benutzer_Repo;
+import com.example.backend_verwaltungssoftware.Repositories.Führerschein_Repo;
 import com.example.backend_verwaltungssoftware.Repositories.Rolle_Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,6 +23,8 @@ public class Benutzer_Controller {
     Benutzer_Repo Benutzer_Repo;
     @Autowired
     Rolle_Repo Rolle_repo;
+    @Autowired
+    Führerschein_Repo Führerschein_repo;
 
     @PostMapping(value = "/newUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Benutzer create_benutzer(@RequestBody Benutzer benutzer){
@@ -35,7 +38,8 @@ public class Benutzer_Controller {
 
         if(benutzer.getFührerscheine() != null){
             for (int i = 0; i < benutzer.getFührerscheine().size(); i++) {
-                benutzer.getFührerscheine().get(i).getFührerschein_id();
+                Optional<Führerschein> f = Führerschein_repo.findById(benutzer.getFührerscheine().get(i).getFührerschein_id());
+                benutzer.getFührerscheine().add(f.get());
             }
         }
 
