@@ -62,4 +62,15 @@ public class Benutzer_Controller {
 
         return null;
     }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deletePerson(@PathVariable int id){
+        try {
+            Optional<Benutzer> p = Benutzer_Repo.findById(id);
+            Benutzer_Repo.delete(p.get());
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
 }
