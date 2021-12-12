@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class JwtAuthenticationRESTController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -29,6 +29,7 @@ public class JwtAuthenticationRESTController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
+        System.out.println(token);
         return ResponseEntity.ok(new JwtTokenResource(token));
     }
 
