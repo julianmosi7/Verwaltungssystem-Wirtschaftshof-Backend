@@ -75,6 +75,11 @@ public class Benutzer_Controller {
         }
     }
 
+    @GetMapping("/getAll")
+    public List<Benutzer> getAllUsers(){
+        return (List<Benutzer>) Benutzer_Repo.findAll();
+    }
+
     @GetMapping(path = "/editUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Benutzer editEntry(@PathVariable("id") int id, @RequestBody Benutzer newBenutzer){
         Optional<Benutzer> oldUser = Benutzer_Repo.findById(id);
