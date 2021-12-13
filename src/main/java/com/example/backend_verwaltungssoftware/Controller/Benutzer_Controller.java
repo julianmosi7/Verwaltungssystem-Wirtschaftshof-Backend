@@ -1,5 +1,6 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
+import com.example.backend_verwaltungssoftware.Entities.Auftrag;
 import com.example.backend_verwaltungssoftware.Entities.Benutzer;
 import com.example.backend_verwaltungssoftware.Entities.Führerschein;
 import com.example.backend_verwaltungssoftware.Entities.Rolle;
@@ -72,5 +73,22 @@ public class Benutzer_Controller {
         } catch (Exception e){
             return false;
         }
+    }
+
+    @GetMapping(path = "/editUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Benutzer editEntry(@PathVariable("id") int id, @RequestBody Benutzer newBenutzer){
+        Optional<Benutzer> oldUser = Benutzer_Repo.findById(id);
+
+        oldUser.get().setVorname(newBenutzer.getVorname());
+        oldUser.get().setNachname(newBenutzer.getNachname());
+        oldUser.get().setEmail(newBenutzer.getEmail());
+
+        String encodePassword = Base64.getEncoder().encodeToString(newBenutzer.getPasswort().getBytes());
+        oldUser.get().setPasswort(encodePassword);
+
+        oldUser.get().setGeburtsdatum(newBenutzer.getGeburtsdatum());
+        oldUser.get().setFührerscheine(newBenutzer.getFührerscheine());
+
+        return Benutzer_Repo.save(oldUser.get());
     }
 }

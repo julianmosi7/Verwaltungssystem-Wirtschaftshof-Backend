@@ -53,4 +53,25 @@ public class Auftrag_Controller {
         auftrag_repo.deleteById(aID);
         return auftrag_repo.save(auftrag.get());
     }
+
+    @GetMapping(path = "/editEntry/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Auftrag editEntry(@PathVariable("id") int id, @RequestBody Auftrag newAuftrag){
+        Optional<Auftrag> oldAuftrag = auftrag_repo.findById(id);
+
+        oldAuftrag.get().setStatus(newAuftrag.getStatus());
+        oldAuftrag.get().setGemeinde(newAuftrag.getGemeinde());
+        oldAuftrag.get().setAuftragnummer(newAuftrag.getAuftragnummer());
+        oldAuftrag.get().setAufgabe(newAuftrag.getAufgabe());
+        oldAuftrag.get().setDauer(newAuftrag.getDauer());
+        oldAuftrag.get().setEmail(newAuftrag.getEmail());
+        oldAuftrag.get().setEnd(newAuftrag.getEnd());
+        oldAuftrag.get().setFortschritt(newAuftrag.getFortschritt());
+        oldAuftrag.get().setKostenstelle(newAuftrag.getKostenstelle());
+        oldAuftrag.get().setLink(newAuftrag.getLink());
+        oldAuftrag.get().setPersonal(newAuftrag.getPersonal());
+        oldAuftrag.get().setPfad(newAuftrag.getPfad());
+        oldAuftrag.get().setStart(newAuftrag.getStart());
+
+        return auftrag_repo.save(oldAuftrag.get());
+    }
 }
