@@ -16,12 +16,12 @@ public class Auftrag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Auftrag_id;
-    String auftragnummer;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "gemeinde_id")
     Gemeinde gemeinde;
-    String kostenstelle;
+    @OneToOne
+    Kostenstelle kostenstelle;
     String email;
     String pfad;
     String link;
@@ -40,12 +40,12 @@ public class Auftrag {
     @ManyToOne
     @JoinColumn(name = "status_id")
     Status status;
+    Boolean approved;
 
     public Auftrag() {
     }
 
-    public Auftrag(String auftragnummer, Gemeinde gemeinde, String kostenstelle, String email, String pfad, String link, String aufgabe, List<Benutzer> personal, Date start, int dauer, Date end, double fortschritt, Status status) {
-        this.auftragnummer = auftragnummer;
+    public Auftrag(Gemeinde gemeinde, Kostenstelle kostenstelle, String email, String pfad, String link, String aufgabe, List<Benutzer> personal, Date start, int dauer, Date end, double fortschritt, Status status) {
         this.gemeinde = gemeinde;
         this.kostenstelle = kostenstelle;
         this.email = email;
@@ -68,14 +68,6 @@ public class Auftrag {
         Auftrag_id = auftrag_id;
     }
 
-    public String getAuftragnummer() {
-        return auftragnummer;
-    }
-
-    public void setAuftragnummer(String auftragnummer) {
-        this.auftragnummer = auftragnummer;
-    }
-
     public Gemeinde getGemeinde() {
         return gemeinde;
     }
@@ -84,11 +76,11 @@ public class Auftrag {
         this.gemeinde = gemeinde;
     }
 
-    public String getKostenstelle() {
+    public Kostenstelle getKostenstelle() {
         return kostenstelle;
     }
 
-    public void setKostenstelle(String kostenstelle) {
+    public void setKostenstelle(Kostenstelle kostenstelle) {
         this.kostenstelle = kostenstelle;
     }
 
