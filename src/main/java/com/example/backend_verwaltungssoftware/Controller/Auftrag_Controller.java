@@ -49,6 +49,7 @@ public class Auftrag_Controller {
         Optional<Auftrag> auftrag = auftrag_repo.findById(aID);
 
         auftrag.get().getPersonal().add(benutzer.get());
+        benutzer.get().getAuftraege().add(auftrag.get());
 
         auftrag_repo.deleteById(aID);
         return auftrag_repo.save(auftrag.get());
@@ -60,7 +61,6 @@ public class Auftrag_Controller {
 
         oldAuftrag.get().setStatus(newAuftrag.getStatus());
         oldAuftrag.get().setGemeinde(newAuftrag.getGemeinde());
-        oldAuftrag.get().setAuftragnummer(newAuftrag.getAuftragnummer());
         oldAuftrag.get().setAufgabe(newAuftrag.getAufgabe());
         oldAuftrag.get().setDauer(newAuftrag.getDauer());
         oldAuftrag.get().setEmail(newAuftrag.getEmail());
