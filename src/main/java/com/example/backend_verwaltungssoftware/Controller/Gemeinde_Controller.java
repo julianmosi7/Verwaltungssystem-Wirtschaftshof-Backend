@@ -21,7 +21,8 @@ public class Gemeinde_Controller {
     @Autowired
     Gemeinde_Repo gemeinde_repo;
 
-    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    //@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public List<Gemeinde> getAll_Gemeinde(){
         List<Gemeinde> gemeindeList = (List<Gemeinde>) gemeinde_repo.findAll();
         return gemeindeList;
