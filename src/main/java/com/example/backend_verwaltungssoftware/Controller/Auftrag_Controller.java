@@ -39,6 +39,8 @@ public class Auftrag_Controller {
             auftrag.setStatus(s.get());
         }
 
+        auftrag.setApproved(false);
+
         return auftrag_repo.save(auftrag);
     }
 
@@ -73,5 +75,12 @@ public class Auftrag_Controller {
         oldAuftrag.get().setStart(newAuftrag.getStart());
 
         return auftrag_repo.save(oldAuftrag.get());
+    }
+
+    @GetMapping(path = "/approveEntry/{id}")
+    public Auftrag approveEntry(@PathVariable("id") int id){
+        Optional<Auftrag> a = auftrag_repo.findById(id);
+        a.get().setApproved(true);
+        return auftrag_repo.save(a.get());
     }
 }

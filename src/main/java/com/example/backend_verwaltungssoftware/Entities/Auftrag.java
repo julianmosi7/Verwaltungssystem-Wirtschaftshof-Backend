@@ -45,7 +45,7 @@ public class Auftrag {
     public Auftrag() {
     }
 
-    public Auftrag(Gemeinde gemeinde, Kostenstelle kostenstelle, String email, String pfad, String link, String aufgabe, List<Benutzer> personal, Date start, int dauer, Date end, double fortschritt, Status status) {
+    public Auftrag(Gemeinde gemeinde, Kostenstelle kostenstelle, String email, String pfad, String link, String aufgabe, List<Benutzer> personal, Date start, int dauer, Date end, double fortschritt, Status status, Boolean approved) {
         this.gemeinde = gemeinde;
         this.kostenstelle = kostenstelle;
         this.email = email;
@@ -58,6 +58,7 @@ public class Auftrag {
         this.end = end;
         this.fortschritt = fortschritt;
         this.status = status;
+        this.approved = approved;
     }
 
     public int getAuftrag_id() {
@@ -162,5 +163,13 @@ public class Auftrag {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
     }
 }
