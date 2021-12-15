@@ -57,6 +57,13 @@ public class Auftrag_Controller {
         return auftrag_repo.save(auftrag.get());
     }
 
+    @GetMapping(path = "/deleteAuftrag{personID}")
+    public void deleteAuftrag(@PathVariable("auftragID") int aID){
+        Optional<Auftrag> auftrag = auftrag_repo.findById(aID);
+
+        auftrag_repo.deleteById(aID);
+    }
+
     @GetMapping(path = "/editEntry/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Auftrag editEntry(@PathVariable("id") int id, @RequestBody Auftrag newAuftrag){
         Optional<Auftrag> oldAuftrag = auftrag_repo.findById(id);
