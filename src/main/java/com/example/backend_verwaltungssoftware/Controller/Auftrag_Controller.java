@@ -49,9 +49,17 @@ public class Auftrag_Controller {
         Optional<Auftrag> auftrag = auftrag_repo.findById(aID);
 
         auftrag.get().getPersonal().add(benutzer.get());
+        benutzer.get().getAuftraege().add(auftrag.get());
 
         auftrag_repo.deleteById(aID);
         return auftrag_repo.save(auftrag.get());
+    }
+
+    @GetMapping(path = "/deleteAuftrag{personID}")
+    public void deleteAuftrag(@PathVariable("auftragID") int aID){
+        Optional<Auftrag> auftrag = auftrag_repo.findById(aID);
+
+        auftrag_repo.deleteById(aID);
     }
 
     @GetMapping(path = "/editEntry/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +68,6 @@ public class Auftrag_Controller {
 
         oldAuftrag.get().setStatus(newAuftrag.getStatus());
         oldAuftrag.get().setGemeinde(newAuftrag.getGemeinde());
-        oldAuftrag.get().setAuftragnummer(newAuftrag.getAuftragnummer());
         oldAuftrag.get().setAufgabe(newAuftrag.getAufgabe());
         oldAuftrag.get().setDauer(newAuftrag.getDauer());
         oldAuftrag.get().setEmail(newAuftrag.getEmail());
