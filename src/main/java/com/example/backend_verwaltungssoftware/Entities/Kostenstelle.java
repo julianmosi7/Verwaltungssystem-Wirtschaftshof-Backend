@@ -16,13 +16,23 @@ public class Kostenstelle{
     private int kostenstelle_id;
     String kost_id;
     String bezeichnung;
+    String kathegorie;
 
     public Kostenstelle() {
     }
 
-    public Kostenstelle(String kost_id, String bezeichnung) {
+    public Kostenstelle(String kost_id, String bezeichnung, String kathegorie) {
         this.kost_id = kost_id;
         this.bezeichnung = bezeichnung;
+        this.kathegorie = kathegorie;
+    }
+
+    public int getKostenstelle_id() {
+        return kostenstelle_id;
+    }
+
+    public void setKostenstelle_id(int kostenstelle_id) {
+        this.kostenstelle_id = kostenstelle_id;
     }
 
     public String getKost_id() {
@@ -39,5 +49,13 @@ public class Kostenstelle{
 
     public void setBezeichnung(String bezeichnung) {
         this.bezeichnung = bezeichnung;
+    }
+
+    public String getKathegorie() {
+        return kathegorie;
+    }
+
+    public void setKathegorie(String kathegorie) {
+        this.kathegorie = kathegorie;
     }
 }

@@ -1,15 +1,11 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
 import com.example.backend_verwaltungssoftware.Entities.*;
-import com.example.backend_verwaltungssoftware.Repositories.Auftrag_Repo;
-import com.example.backend_verwaltungssoftware.Repositories.Benutzer_Repo;
-import com.example.backend_verwaltungssoftware.Repositories.Gemeinde_Repo;
-import com.example.backend_verwaltungssoftware.Repositories.Status_Repo;
+import com.example.backend_verwaltungssoftware.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.Optional;
 
 @RestController
@@ -25,6 +21,8 @@ public class Auftrag_Controller {
     Gemeinde_Repo gemeinde_repo;
     @Autowired
     Status_Repo status_repo;
+    @Autowired
+    Kostenstellen_repo kostenstellen_repo;
 
     @PostMapping(path = "/newAuftrag", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Auftrag create_auftrag(@RequestBody Auftrag auftrag){
@@ -39,22 +37,31 @@ public class Auftrag_Controller {
             auftrag.setStatus(s.get());
         }
 
+        if(auftrag.getKostenstelle() != null){
+            Optional<Kostenstelle> s = kostenstellen_repo.findById(auftrag.getKostenstelle().getKostenstelle_id());
+            auftrag.setKostenstelle(s.get());
+        }
+
         auftrag.setApproved(false);
 
         return auftrag_repo.save(auftrag);
     }
 
     @GetMapping(path = "/addPersonToAuftrag/{personID}/{auftragID}")
-    public Auftrag addPersonToAuftrag(@PathVariable("personID") int pID,
+    public boolean addPersonToAuftrag(@PathVariable("personID") int pID,
                                       @PathVariable("auftragID") int aID){
         Optional<Benutzer> benutzer = benutzer_repo.findById(pID);
         Optional<Auftrag> auftrag = auftrag_repo.findById(aID);
 
+        if(!auftrag.get().getApproved() || auftrag.get().getApproved() == null){
+            return false;
+        }
+
         auftrag.get().getPersonal().add(benutzer.get());
         benutzer.get().getAuftraege().add(auftrag.get());
 
-        auftrag_repo.deleteById(aID);
-        return auftrag_repo.save(auftrag.get());
+        auftrag_repo.save(auftrag.get());
+        return true;
     }
 
     @GetMapping(path = "/deleteAuftrag{personID}")
