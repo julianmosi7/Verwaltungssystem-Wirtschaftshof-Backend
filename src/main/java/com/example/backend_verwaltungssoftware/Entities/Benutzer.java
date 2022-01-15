@@ -1,6 +1,7 @@
 package com.example.backend_verwaltungssoftware.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,10 +17,13 @@ public class Benutzer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int benutzer_id;
+    private String username;
+    @JsonIgnore
+    private String passwort;
     String vorname;
     String nachname;
     String email;
-    String passwort;
+    //TODO: loging with username or email??
     @JsonFormat(pattern = "dd.MM.yyyy")
     Date geburtsdatum;
     @OneToOne(cascade = CascadeType.ALL)
@@ -46,11 +50,12 @@ public class Benutzer implements Serializable {
     public Benutzer() {
     }
 
-    public Benutzer(String vorname, String nachname, String email, String passwort, Date geburtsdatum, Rolle rolle, List<Führerschein> führerscheine, List<Urlaub> urlaube, List<Auftrag> auftraege) {
+    public Benutzer(String username, String passwort, String vorname, String nachname, String email, Date geburtsdatum, Rolle rolle, List<Führerschein> führerscheine, List<Urlaub> urlaube, List<Auftrag> auftraege) {
+        this.username = username;
+        this.passwort = passwort;
         this.vorname = vorname;
         this.nachname = nachname;
         this.email = email;
-        this.passwort = passwort;
         this.geburtsdatum = geburtsdatum;
         this.rolle = rolle;
         this.führerscheine = führerscheine;
@@ -64,6 +69,22 @@ public class Benutzer implements Serializable {
 
     public void setBenutzer_id(int benutzer_id) {
         this.benutzer_id = benutzer_id;
+    }
+
+    public void getUsername(){
+        this.username = username;
+    }
+
+    public String setUsername(String username){
+        return username;
+    }
+
+    public String getPasswort() {
+        return passwort;
+    }
+
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
     }
 
     public String getVorname() {
@@ -88,14 +109,6 @@ public class Benutzer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
     }
 
     public Date getGeburtsdatum() {
