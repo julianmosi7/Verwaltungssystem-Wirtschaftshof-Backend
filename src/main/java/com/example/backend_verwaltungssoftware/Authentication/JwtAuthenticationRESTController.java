@@ -1,12 +1,18 @@
 package com.example.backend_verwaltungssoftware.Authentication;
 
+import com.example.backend_verwaltungssoftware.DTOs.BenutzerDto;
+import com.example.backend_verwaltungssoftware.Entities.Benutzer;
+import com.example.backend_verwaltungssoftware.Services.BenutzerService;
+import com.example.backend_verwaltungssoftware.Services.interfaces.BenutzerServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,27 +25,45 @@ public class JwtAuthenticationRESTController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private BenutzerService benutzerService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticateDto authenticationRequest) throws Exception{
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        System.out.println("comes here");
+        System.out.println(authenticationRequest);
+        final Authentication authentication = authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        final String token = jwtTokenUtil.generateToken(authentication);
 
         System.out.println(token);
+
         return ResponseEntity.ok(new JwtTokenResource(token));
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private Authentication authenticate(String username, String password) throws Exception {
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         }catch(DisabledException ex){
             throw new Exception("USER_DISABLED", ex);
         }catch(BadCredentialsException ex){
             throw new Exception("INVALID_CREDENTIALS", ex);
         }
+    }
+
+    @RequestMapping(value="/register", method = RequestMethod.POST)
+    public Benutzer saveUser(@RequestBody BenutzerDto benutzerDto){
+        return benutzerService.save(benutzerDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value="/adminping", method = RequestMethod.GET)
+    public String adminPing(){
+        return "Only Admins Can Read This";
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value="/userping", method = RequestMethod.GET)
+    public String userPing(){
+        return "Any User Can Read This";
     }
 }

@@ -15,13 +15,13 @@ public class Rolle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int rolle_id;
-    String rolle;
+    String name;
 
     public Rolle() {
     }
 
-    public Rolle(String rolle) {
-        this.rolle = rolle;
+    public Rolle(String name) {
+        this.name = name;
     }
 
     public int getRolle_id() {
@@ -32,11 +32,11 @@ public class Rolle implements Serializable {
         this.rolle_id = rolle_id;
     }
 
-    public String getRolle() {
-        return rolle;
+    public String getName() {
+        return name;
     }
 
-    public void setRolle(String rolle) {
-        this.rolle = rolle;
+    public void setName(String name) {
+        this.name = name;
     }
 }

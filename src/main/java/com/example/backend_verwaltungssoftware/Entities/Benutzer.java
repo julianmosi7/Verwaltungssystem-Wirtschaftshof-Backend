@@ -71,11 +71,11 @@ public class Benutzer implements Serializable {
         this.benutzer_id = benutzer_id;
     }
 
-    public void getUsername(){
+    public void setUsername(String username){
         this.username = username;
     }
 
-    public String setUsername(String username){
+    public String getUsername(){
         return username;
     }
 

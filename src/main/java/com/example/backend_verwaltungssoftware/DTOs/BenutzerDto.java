@@ -12,6 +12,31 @@ public class BenutzerDto {
     private String email;
     private Date geburtsdatum;
 
+    public String getUsername(){
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public String getPassword(){
+        return passwort;
+    }
+
+    public void setPassword(String passwort){
+        this.passwort = passwort;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+
     public Benutzer getUserFromDto(){
         Benutzer benutzer = new Benutzer();
         benutzer.setUsername(username);
