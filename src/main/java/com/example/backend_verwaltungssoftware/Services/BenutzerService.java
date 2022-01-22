@@ -15,10 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 @Service
 public class BenutzerService implements UserDetailsService, BenutzerServiceInterface {
@@ -35,12 +33,13 @@ public class BenutzerService implements UserDetailsService, BenutzerServiceInter
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("benutzerService::loadUserByUsername");
-        Benutzer benutzer = benutzer_repo.findByUsername(username);
-
+        //Benutzer benutzer = benutzer_repo.findByUsername(username);
+        Optional<Benutzer> benutzer = benutzer_repo.findById(2);
+        System.out.println(benutzer.get().getUsername());
         if(benutzer == null){
             throw new UsernameNotFoundException("Invalid username or password");
         }
-        return new User(benutzer.getUsername(), benutzer.getPasswort(), getAuthority(benutzer));
+        return new User(benutzer.get().getUsername(), benutzer.get().getPasswort(), getAuthority(benutzer.get()));
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(Benutzer benutzer){
