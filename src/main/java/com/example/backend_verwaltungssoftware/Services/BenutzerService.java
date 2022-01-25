@@ -33,8 +33,12 @@ public class BenutzerService implements UserDetailsService, BenutzerServiceInter
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("benutzerService::loadUserByUsername");
-        //Benutzer benutzer = benutzer_repo.findByUsername(username);
+        /*TODO: error findByUsername
+            Benutzer benutzer = benutzer_repo.findByUsername(username);
+        */
+
         Optional<Benutzer> benutzer = benutzer_repo.findById(2);
+
         System.out.println(benutzer.get().getUsername());
         if(benutzer == null){
             throw new UsernameNotFoundException("Invalid username or password");
