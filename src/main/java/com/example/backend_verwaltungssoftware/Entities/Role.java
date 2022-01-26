@@ -9,27 +9,27 @@ import java.io.Serializable;
 
 @Entity
 @XmlRootElement
-public class Rolle implements Serializable {
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int rolle_id;
+    private int role_id;
     String name;
 
-    public Rolle() {
+    public Role() {
     }
 
-    public Rolle(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
-    public int getRolle_id() {
-        return rolle_id;
+    public int getRole_id() {
+        return role_id;
     }
 
-    public void setRolle_id(int rolle_id) {
-        this.rolle_id = rolle_id;
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
     }
 
     public String getName() {

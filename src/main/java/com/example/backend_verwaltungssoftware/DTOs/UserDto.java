@@ -1,10 +1,10 @@
 package com.example.backend_verwaltungssoftware.DTOs;
 
-import com.example.backend_verwaltungssoftware.Entities.Benutzer;
+import com.example.backend_verwaltungssoftware.Entities.User;
 
 import java.sql.Date;
 
-public class BenutzerDto {
+public class UserDto {
     private String username;
     private String passwort;
     private String vorname;
@@ -37,15 +37,15 @@ public class BenutzerDto {
     }
 
 
-    public Benutzer getUserFromDto(){
-        Benutzer benutzer = new Benutzer();
-        benutzer.setUsername(username);
-        benutzer.setPasswort(passwort);
-        benutzer.setVorname(vorname);
-        benutzer.setNachname(nachname);
-        benutzer.setEmail(email);
-        benutzer.setGeburtsdatum(geburtsdatum);
+    public User getUserFromDto(){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwort);
+        user.setFirstname(vorname);
+        user.setLastname(nachname);
+        user.setEmail(email);
+        user.setBirthdate(geburtsdatum);
 
-        return benutzer;
+        return user;
     }
 }

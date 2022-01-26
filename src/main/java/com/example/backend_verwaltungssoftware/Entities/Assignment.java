@@ -10,79 +10,79 @@ import java.util.List;
 
 @Entity
 @XmlRootElement
-public class Auftrag {
+public class Assignment {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Auftrag_id;
+    private int assignment_id;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "gemeinde_id")
-    Gemeinde gemeinde;
+    @JoinColumn(name = "municipal_id")
+    com.example.backend_verwaltungssoftware.Entities.Municipal Municipal;
     @OneToOne
-    Kostenstelle kostenstelle;
+    Costcenter costcenter;
     String email;
     String pfad;
     String link;
-    String aufgabe;
+    String task;
     @ManyToMany
-    @JoinTable(name = "Auftrag_Personal",
-            joinColumns = {@JoinColumn(name = "Auftrag_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "Personal_ID")})
-    List<Benutzer> personal;
+    @JoinTable(name = "assignment_Personal",
+            joinColumns = {@JoinColumn(name = "assignment_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    List<User> personal;
     @JsonFormat(pattern = "dd.MM.yyyy")
     Date start;
-    int dauer;
+    int duration;
     @JsonFormat(pattern = "dd.MM.yyyy")
     Date end;
-    double fortschritt;
+    double progress;
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "Status_id")
     Status status;
     Boolean approved;
 
-    public Auftrag() {
+    public Assignment() {
     }
 
-    public Auftrag(Gemeinde gemeinde, Kostenstelle kostenstelle, String email, String pfad, String link, String aufgabe, List<Benutzer> personal, Date start, int dauer, Date end, double fortschritt, Status status, Boolean approved) {
-        this.gemeinde = gemeinde;
-        this.kostenstelle = kostenstelle;
+    public Assignment(com.example.backend_verwaltungssoftware.Entities.Municipal municipal, Costcenter costcenter, String email, String pfad, String link, String task, List<User> personal, Date start, int duration, Date end, double progress, Status status, Boolean approved) {
+        Municipal = municipal;
+        this.costcenter = costcenter;
         this.email = email;
         this.pfad = pfad;
         this.link = link;
-        this.aufgabe = aufgabe;
+        this.task = task;
         this.personal = personal;
         this.start = start;
-        this.dauer = dauer;
+        this.duration = duration;
         this.end = end;
-        this.fortschritt = fortschritt;
+        this.progress = progress;
         this.status = status;
         this.approved = approved;
     }
 
-    public int getAuftrag_id() {
-        return Auftrag_id;
+    public int getAssignment_id() {
+        return assignment_id;
     }
 
-    public void setAuftrag_id(int auftrag_id) {
-        Auftrag_id = auftrag_id;
+    public void setAssignment_id(int assignment_id) {
+        this.assignment_id = assignment_id;
     }
 
-    public Gemeinde getGemeinde() {
-        return gemeinde;
+    public com.example.backend_verwaltungssoftware.Entities.Municipal getMunicipal() {
+        return Municipal;
     }
 
-    public void setGemeinde(Gemeinde gemeinde) {
-        this.gemeinde = gemeinde;
+    public void setMunicipal(com.example.backend_verwaltungssoftware.Entities.Municipal municipal) {
+        Municipal = municipal;
     }
 
-    public Kostenstelle getKostenstelle() {
-        return kostenstelle;
+    public Costcenter getCostcenter() {
+        return costcenter;
     }
 
-    public void setKostenstelle(Kostenstelle kostenstelle) {
-        this.kostenstelle = kostenstelle;
+    public void setCostcenter(Costcenter costcenter) {
+        this.costcenter = costcenter;
     }
 
     public String getEmail() {
@@ -109,19 +109,19 @@ public class Auftrag {
         this.link = link;
     }
 
-    public String getAufgabe() {
-        return aufgabe;
+    public String getTask() {
+        return task;
     }
 
-    public void setAufgabe(String aufgabe) {
-        this.aufgabe = aufgabe;
+    public void setTask(String task) {
+        this.task = task;
     }
 
-    public List<Benutzer> getPersonal() {
+    public List<User> getPersonal() {
         return personal;
     }
 
-    public void setPersonal(List<Benutzer> personal) {
+    public void setPersonal(List<User> personal) {
         this.personal = personal;
     }
 
@@ -133,12 +133,12 @@ public class Auftrag {
         this.start = start;
     }
 
-    public int getDauer() {
-        return dauer;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setDauer(int dauer) {
-        this.dauer = dauer;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public Date getEnd() {
@@ -149,12 +149,12 @@ public class Auftrag {
         this.end = end;
     }
 
-    public double getFortschritt() {
-        return fortschritt;
+    public double getProgress() {
+        return progress;
     }
 
-    public void setFortschritt(double fortschritt) {
-        this.fortschritt = fortschritt;
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 
     public Status getStatus() {
