@@ -15,16 +15,21 @@ public class Costcenter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int costcenter_id;
     String kost_id;
-    String designation;
-    String cathegory;
+    String description;
+    String category;
 
     public Costcenter() {
     }
 
-    public Costcenter(String kost_id, String designation, String cathegory) {
+    public Costcenter(int costcenter_id, String kost_id, String description, String category) {
+        this.costcenter_id = costcenter_id;
         this.kost_id = kost_id;
-        this.designation = designation;
-        this.cathegory = cathegory;
+        this.description = description;
+        this.category = category;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getCostcenter_id() {
@@ -43,19 +48,19 @@ public class Costcenter {
         this.kost_id = kost_id;
     }
 
-    public String getDesignation() {
-        return designation;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesignation(String designation) {
-        this.designation = designation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getCathegory() {
-        return cathegory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCathegory(String cathegory) {
-        this.cathegory = cathegory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
