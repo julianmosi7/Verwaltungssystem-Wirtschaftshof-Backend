@@ -27,6 +27,8 @@ public class Auftrag_Controller {
     @PostMapping(path = "/newAuftrag", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Auftrag create_auftrag(@RequestBody Auftrag auftrag){
 
+        System.out.println(auftrag);
+
         if(auftrag.getGemeinde() != null){
             Optional<Gemeinde> g = gemeinde_repo.findById(auftrag.getGemeinde().getGemeinde_id());
             auftrag.setGemeinde(g.get());
