@@ -16,7 +16,7 @@ public class Municipal {
     private int municipal_id;
     String name;
     @JsonIgnore
-    @OneToMany(mappedBy = "Municipal")
+    @OneToMany(mappedBy = "municipal")
     List<Assignment> assignments;
 
     public Municipal() {
