@@ -27,7 +27,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Value("${jwt.token.prefix}")
     public String TOKEN_PREFIX;
 
-    @Resource(name= "benutzerService")
+    @Autowired
+    @Resource(name= "userService")
     private UserDetailsService userDetailsService;
 
     @Autowired

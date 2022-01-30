@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @XmlRootElement
-public class Führerschein implements Serializable {
+public class Licence implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -17,10 +17,10 @@ public class Führerschein implements Serializable {
     private int führerschein_id;
     String text;
 
-    public Führerschein() {
+    public Licence() {
     }
 
-    public Führerschein(String text) {
+    public Licence(String text) {
         this.text = text;
     }
 

@@ -50,8 +50,6 @@ public class JwtTokenUtil {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
-        //Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(authentication.getName(), authorities);
     }
 
