@@ -78,7 +78,7 @@ public class Assignment_Controller {
         String subject = "Sie wurden zu einem neuen Auftrag hinzugefügt";
         String text = "Guten Tag " + benutzer.get().getFirstname() + " " + benutzer.get().getLastname() + "! \n" +
                       "Sie wurden von " + sender.get().getFirstname() + " " + sender.get().getLastname() + " zu einem neuen Auftrag hinzugefügt. \n" +
-                      "Der Titel des Auftrags lautet: " + auftrag.get().getTask() + ".\n" +
+                      "Der Titel des Auftrags lautet: " + auftrag.get().getAssignmentDescription() + ".\n" +
                       "Der Auftrag sollte von " + format.format(auftrag.get().getStart()) + " bis am " + format.format(auftrag.get().getEnd()) + " erledigt werden. \n" +
                       "Wir wünschen Ihnen ein gutes Gelingen. \n" +
                       "Ihr Wirtschaftshof Aschachtal!";

@@ -14,26 +14,26 @@ public class Holiday {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int urlaub_id;
+    private int holidayId;
     Date begin;
     Date end;
-    String grund;
+    String reason;
 
     public Holiday() {
     }
 
-    public Holiday(Date begin, Date end, String grund) {
+    public Holiday(Date begin, Date end, String reason) {
         this.begin = begin;
         this.end = end;
-        this.grund = grund;
+        this.reason = reason;
     }
 
-    public int getUrlaub_id() {
-        return urlaub_id;
+    public int getHolidayId() {
+        return holidayId;
     }
 
-    public void setUrlaub_id(int urlaub_id) {
-        this.urlaub_id = urlaub_id;
+    public void setHolidayId(int holidayId) {
+        this.holidayId = holidayId;
     }
 
     public Date getBegin() {
@@ -52,11 +52,11 @@ public class Holiday {
         this.end = end;
     }
 
-    public String getGrund() {
-        return grund;
+    public String getReason() {
+        return reason;
     }
 
-    public void setGrund(String grund) {
-        this.grund = grund;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }
