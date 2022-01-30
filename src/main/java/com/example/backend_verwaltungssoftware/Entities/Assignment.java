@@ -44,7 +44,7 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(Municipal municipal, Costcenter costCenter, String email, String pfad, String assignmentLink, String assignmentDescription, List<User> personal, Date start, int duration, Date end, double progress, Status status, Boolean approved) {
+    public Assignment(com.example.backend_verwaltungssoftware.Entities.Municipal municipal, Costcenter costCenter, String email, String pfad, String link, String task, List<User> personal, Date start, int duration, Date end, double progress, Status status, Boolean approved) {
         this.municipal = municipal;
         this.costCenter = costCenter;
         this.email = email;

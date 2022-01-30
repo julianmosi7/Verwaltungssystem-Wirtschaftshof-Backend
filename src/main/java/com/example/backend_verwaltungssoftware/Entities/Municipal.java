@@ -1,5 +1,7 @@
 package com.example.backend_verwaltungssoftware.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Municipal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int municipalId;
     String name;
+    @JsonIgnore
     @OneToMany(mappedBy = "municipal")
     List<Assignment> assignments;
 

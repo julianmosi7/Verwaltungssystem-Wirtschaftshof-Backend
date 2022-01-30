@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/rest/gemeinde")
+@RequestMapping(value = "/rest/municipal")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Municipal_Controller {
 

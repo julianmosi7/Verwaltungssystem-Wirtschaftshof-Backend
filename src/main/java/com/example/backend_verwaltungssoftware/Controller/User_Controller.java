@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/rest/benutzer")
+@RequestMapping(value = "/rest/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class User_Controller {
 
@@ -66,7 +66,7 @@ public class User_Controller {
         return null;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public boolean deletePerson(@PathVariable int id){
         try {
             Optional<User> p = User_Repo.findById(id);
@@ -78,7 +78,7 @@ public class User_Controller {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getAll")
+    @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){
         return (List<User>) User_Repo.findAll();
     }
