@@ -14,13 +14,13 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int status_id;
-    String status;
+    String description;
 
     public Status() {
     }
 
-    public Status(String status) {
-        this.status = status;
+    public Status(String description) {
+        this.description = description;
     }
 
     public int getStatus_id() {
@@ -31,11 +31,11 @@ public class Status {
         this.status_id = status_id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

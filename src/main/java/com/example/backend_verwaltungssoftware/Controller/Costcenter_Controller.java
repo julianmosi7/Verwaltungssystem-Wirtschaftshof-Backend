@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/rest/Costcenter")
+@RequestMapping(value = "/rest/costcenter")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Costcenter_Controller {
     @Autowired
