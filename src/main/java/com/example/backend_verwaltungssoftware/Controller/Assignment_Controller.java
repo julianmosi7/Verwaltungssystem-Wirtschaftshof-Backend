@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/rest/auftrag")
+@RequestMapping(value = "/rest/assignment")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Assignment_Controller {
 
@@ -29,7 +29,7 @@ public class Assignment_Controller {
     @Autowired
     EmailSenderService emailSenderService;
 
-    @PostMapping(path = "/newAuftrag")
+    @PostMapping(path = "/newAssignment")
     public Assignment create_auftrag(@RequestBody Assignment assignment){
 
         if(assignment.getMunicipal() != null){
@@ -52,7 +52,7 @@ public class Assignment_Controller {
         return assignment_repo.save(assignment);
     }
 
-    @GetMapping(path = "/addPersonToAuftrag/{personID}/{auftragID}/{senderID}")
+    @GetMapping(path = "/addPersonToAssignment/{personID}/{auftragID}/{senderID}")
     public boolean addPersonToAuftrag(@PathVariable("personID") int pID,
                                       @PathVariable("auftragID") int aID,
                                       @PathVariable("senderID") int sID){
@@ -84,14 +84,14 @@ public class Assignment_Controller {
         return true;
     }
 
-    @GetMapping(path = "/deleteAuftrag{personID}")
+    @GetMapping(path = "/deleteAssignment{personID}")
     public void deleteAuftrag(@PathVariable("auftragID") int aID){
         Optional<Assignment> auftrag = assignment_repo.findById(aID);
 
         assignment_repo.deleteById(aID);
     }
 
-    @GetMapping(path = "/editEntry/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/editAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Assignment editEntry(@PathVariable("id") int id, @RequestBody Assignment newAssignment){
         Optional<Assignment> oldAuftrag = assignment_repo.findById(id);
 
@@ -111,7 +111,7 @@ public class Assignment_Controller {
         return assignment_repo.save(oldAuftrag.get());
     }
 
-    @GetMapping(path = "/approveEntry/{id}")
+    @GetMapping(path = "/approveAssignment/{id}")
     public Assignment approveEntry(@PathVariable("id") int id){
         Optional<Assignment> a = assignment_repo.findById(id);
         a.get().setApproved(true);
