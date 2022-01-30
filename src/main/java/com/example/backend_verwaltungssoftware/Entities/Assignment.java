@@ -19,7 +19,7 @@ public class Assignment {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "municipal_id")
-    com.example.backend_verwaltungssoftware.Entities.Municipal Municipal;
+    Municipal municipal;
     @OneToOne
     Costcenter costcenter;
     String email;
@@ -46,7 +46,7 @@ public class Assignment {
     }
 
     public Assignment(com.example.backend_verwaltungssoftware.Entities.Municipal municipal, Costcenter costcenter, String email, String pfad, String link, String task, List<User> personal, Date start, int duration, Date end, double progress, Status status, Boolean approved) {
-        Municipal = municipal;
+        this.municipal = municipal;
         this.costcenter = costcenter;
         this.email = email;
         this.pfad = pfad;
@@ -70,11 +70,11 @@ public class Assignment {
     }
 
     public com.example.backend_verwaltungssoftware.Entities.Municipal getMunicipal() {
-        return Municipal;
+        return municipal;
     }
 
     public void setMunicipal(com.example.backend_verwaltungssoftware.Entities.Municipal municipal) {
-        Municipal = municipal;
+        this.municipal = municipal;
     }
 
     public Costcenter getCostcenter() {

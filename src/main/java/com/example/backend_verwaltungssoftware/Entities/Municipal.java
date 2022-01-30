@@ -13,7 +13,7 @@ public class Municipal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int municipal_id;
     String name;
-    @OneToMany(mappedBy = "Municipal")
+    @OneToMany(mappedBy = "municipal")
     List<Assignment> assignments;
 
     public Municipal() {
