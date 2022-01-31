@@ -25,7 +25,7 @@ public class Assignment {
     String email;
     String assignmentLink;
     String assignmentDescription;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "assignment_Personal",
             joinColumns = {@JoinColumn(name = "assignmentId")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
