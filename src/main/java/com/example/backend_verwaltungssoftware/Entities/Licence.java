@@ -14,29 +14,22 @@ public class Licence implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int führerschein_id;
-    String text;
+    private int licenceId;
+    String description;
 
     public Licence() {
     }
 
-    public Licence(String text) {
-        this.text = text;
+    public Licence(String description) {
+        this.description = description;
     }
 
-    public int getFührerschein_id() {
-        return führerschein_id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFührerschein_id(int führerschein_id) {
-        this.führerschein_id = führerschein_id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

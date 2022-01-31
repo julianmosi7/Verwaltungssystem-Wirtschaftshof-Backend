@@ -14,39 +14,27 @@ public class Costcenter {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int costCenterId;
-    String costId;
+    String cost_id;
     String description;
     String category;
 
     public Costcenter() {
     }
 
-    public Costcenter(int costCenterId, String kost_id, String description, String category) {
-        this.costCenterId = costCenterId;
-        this.costId = kost_id;
+    public Costcenter(String cost_id, String description, String category) {
+        this.cost_id = cost_id;
         this.description = description;
         this.category = category;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public int getCostCenterId() {
         return costCenterId;
     }
 
-    public void setCostCenterId(int costCenterId) {
-        this.costCenterId = costCenterId;
+    public void setCostCenterId(int costcenterId) {
+        this.costCenterId = costcenterId;
     }
 
-    public String getCostId() {
-        return costId;
-    }
-
-    public void setCostId(String cost_id) {
-        this.costId = cost_id;
-    }
 
     public String getDescription() {
         return description;
