@@ -36,7 +36,6 @@ public class Costcenter {
     }
 
 
-
     public String getDescription() {
         return description;
     }
