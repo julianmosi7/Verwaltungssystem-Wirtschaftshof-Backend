@@ -84,11 +84,11 @@ public class Assignment_Controller {
         return true;
     }
 
-    @GetMapping(path = "/deleteAssignment{personID}")
-    public void deleteAuftrag(@PathVariable("auftragID") int aID){
-        Optional<Assignment> auftrag = assignment_repo.findById(aID);
+    @GetMapping(path = "/deleteAssignment/{assignmentId}")
+    public void deleteAuftrag(@PathVariable("assignmentId") int assignmentId){
+        Optional<Assignment> assignment = assignment_repo.findById(assignmentId);
 
-        assignment_repo.deleteById(aID);
+        assignment_repo.deleteById(assignmentId);
     }
 
     @GetMapping(path = "/editAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -120,6 +120,12 @@ public class Assignment_Controller {
     @GetMapping(path = "/getAll")
     public List<Assignment> getAllEntries(){
         List<Assignment> assignmentList = (List<Assignment>) assignment_repo.findAll();
+        return assignmentList;
+    }
+
+    @GetMapping(path = "/getAllNotApproved")
+    public List<Assignment> getAllNotApproved(){
+        List<Assignment> assignmentList = assignment_repo.findByApprovedIsFalse();
         return assignmentList;
     }
 }
