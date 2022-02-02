@@ -75,6 +75,8 @@ public class Assignment {
         this.municipal = municipal;
     }
 
+
+
     public Costcenter getCostcenter() {
         return costCenter;
     }
