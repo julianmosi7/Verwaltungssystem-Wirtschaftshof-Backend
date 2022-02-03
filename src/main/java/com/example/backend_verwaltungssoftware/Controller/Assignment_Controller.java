@@ -86,8 +86,6 @@ public class Assignment_Controller {
 
     @DeleteMapping(path = "/deleteAssignment/{assignmentId}")
     public void deleteAuftrag(@PathVariable("assignmentId") int assignmentId){
-        Optional<Assignment> assignment = assignment_repo.findById(assignmentId);
-
         assignment_repo.deleteById(assignmentId);
     }
 
