@@ -84,14 +84,14 @@ public class Assignment_Controller {
         return true;
     }
 
-    @GetMapping(path = "/deleteAssignment/{assignmentId}")
+    @DeleteMapping(path = "/deleteAssignment/{assignmentId}")
     public void deleteAuftrag(@PathVariable("assignmentId") int assignmentId){
         Optional<Assignment> assignment = assignment_repo.findById(assignmentId);
 
         assignment_repo.deleteById(assignmentId);
     }
 
-    @GetMapping(path = "/editAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/updateAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Assignment editEntry(@PathVariable("id") int id, @RequestBody Assignment newAssignment){
         Optional<Assignment> oldAuftrag = assignment_repo.findById(id);
 
