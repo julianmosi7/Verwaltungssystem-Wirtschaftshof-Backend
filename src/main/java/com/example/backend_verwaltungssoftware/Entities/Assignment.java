@@ -18,7 +18,7 @@ public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int assignmentId;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @ManyToOne
     @JoinColumn(name = "municipalId")
     private Municipal municipal;
