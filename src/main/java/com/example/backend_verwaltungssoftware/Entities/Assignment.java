@@ -32,10 +32,9 @@ public class Assignment {
             joinColumns = {@JoinColumn(name = "assignmentId")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     List<User> personal;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+
     Date start;
-    int duration;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    //int duration;
     Date end;
     double progress;
     @ManyToOne
@@ -46,7 +45,7 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(com.example.backend_verwaltungssoftware.Entities.Municipal municipal, Costcenter costCenter, String email, String pfad, String link, String task, List<User> personal, Date start, int duration, Date end, double progress, Status status, Boolean approved) {
+    public Assignment(com.example.backend_verwaltungssoftware.Entities.Municipal municipal, Costcenter costCenter, String email, String pfad, String link, String task, List<User> personal, Date start, Date end, double progress, Status status, Boolean approved) {
         this.municipal = municipal;
         this.costCenter = costCenter;
         this.email = email;
@@ -54,7 +53,7 @@ public class Assignment {
         this.assignmentDescription = assignmentDescription;
         this.personal = personal;
         this.start = start;
-        this.duration = duration;
+        //this.duration = duration;
         this.end = end;
         this.progress = progress;
         this.status = status;
@@ -127,13 +126,7 @@ public class Assignment {
         this.start = start;
     }
 
-    public int getDuration() {
-        return duration;
-    }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 
     public Date getEnd() {
         return end;
