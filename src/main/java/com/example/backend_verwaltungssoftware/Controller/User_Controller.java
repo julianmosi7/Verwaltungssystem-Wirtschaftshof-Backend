@@ -78,7 +78,7 @@ public class User_Controller {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getAllUsers")
+    @GetMapping("/getAll")
     public List<User> getAllUsers(){
         return (List<User>) User_Repo.findAll();
     }
