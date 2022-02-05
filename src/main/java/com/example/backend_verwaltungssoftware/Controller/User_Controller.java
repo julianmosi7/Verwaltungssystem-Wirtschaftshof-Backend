@@ -83,6 +83,12 @@ public class User_Controller {
         return (List<User>) User_Repo.findAll();
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getUserByUsername/{username}")
+    public User getUserByUsername(@PathVariable("username") String username){
+        return User_Repo.findByUsername(username);
+    }
+
     @GetMapping(path = "/editUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public User editEntry(@PathVariable("id") int id, @RequestBody User newUser){
         Optional<User> oldUser = User_Repo.findById(id);

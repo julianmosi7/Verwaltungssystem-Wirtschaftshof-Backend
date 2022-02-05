@@ -32,7 +32,6 @@ public class Assignment {
             joinColumns = {@JoinColumn(name = "assignmentId")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     List<User> personal;
-
     Date start;
     Date end;
     double progress;
