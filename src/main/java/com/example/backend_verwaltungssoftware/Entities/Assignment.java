@@ -34,7 +34,6 @@ public class Assignment {
     List<User> personal;
 
     Date start;
-    //int duration;
     Date end;
     double progress;
     @ManyToOne
@@ -53,7 +52,6 @@ public class Assignment {
         this.assignmentDescription = assignmentDescription;
         this.personal = personal;
         this.start = start;
-        //this.duration = duration;
         this.end = end;
         this.progress = progress;
         this.status = status;

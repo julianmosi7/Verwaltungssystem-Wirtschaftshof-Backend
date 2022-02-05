@@ -96,7 +96,6 @@ public class Assignment_Controller {
         oldAuftrag.get().setStatus(newAssignment.getStatus());
         oldAuftrag.get().setMunicipal(newAssignment.getMunicipal());
         oldAuftrag.get().setAssignmentDescription(newAssignment.getAssignmentDescription());
-        oldAuftrag.get().setDuration(newAssignment.getDuration());
         oldAuftrag.get().setEmail(newAssignment.getEmail());
         oldAuftrag.get().setEnd(newAssignment.getEnd());
         oldAuftrag.get().setProgress(newAssignment.getProgress());

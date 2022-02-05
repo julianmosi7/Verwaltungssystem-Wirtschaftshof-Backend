@@ -12,7 +12,6 @@ public class AssignmentDto {
     private String task;
     private List<UserDto> personal;
     private Date start;
-    private int duration;
     private Date end;
     private double progress;
     private StatusDto statusDto;
@@ -82,13 +81,6 @@ public class AssignmentDto {
         this.start = start;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 
     public Date getEnd() {
         return end;
