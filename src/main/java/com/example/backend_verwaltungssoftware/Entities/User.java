@@ -29,7 +29,7 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_Role",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "rple_id")})
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     Role role;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_Licence",
@@ -44,7 +44,7 @@ public class User implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_Assignment",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "aussignment_id")})
+            inverseJoinColumns = {@JoinColumn(name = "assignment_id")})
     List<Assignment> assignments;
 
     public User() {

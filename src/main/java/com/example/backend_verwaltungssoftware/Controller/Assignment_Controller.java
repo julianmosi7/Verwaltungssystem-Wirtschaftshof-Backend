@@ -47,6 +47,11 @@ public class Assignment_Controller {
             assignment.setCostcenter(s.get());
         }
 
+        if(assignment.getPersonal() !=null){
+             List <User> user = assignment.getPersonal();
+            assignment.setPersonal(user);
+        }
+
         assignment.setApproved(false);
 
         return assignment_repo.save(assignment);
