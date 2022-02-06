@@ -1,5 +1,6 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
+import com.example.backend_verwaltungssoftware.DTOs.UserDto;
 import com.example.backend_verwaltungssoftware.Entities.User;
 import com.example.backend_verwaltungssoftware.Entities.Licence;
 import com.example.backend_verwaltungssoftware.Entities.Role;

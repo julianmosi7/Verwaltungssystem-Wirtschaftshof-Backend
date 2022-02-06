@@ -1,5 +1,6 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
+import com.example.backend_verwaltungssoftware.DTOs.AssignmentDto;
 import com.example.backend_verwaltungssoftware.Entities.*;
 import com.example.backend_verwaltungssoftware.Mail.EmailSenderService;
 import com.example.backend_verwaltungssoftware.Repositories.*;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +50,7 @@ public class Assignment_Controller {
         }
 
         if(assignment.getPersonal() !=null){
-             List <User> user = assignment.getPersonal();
+            List<User> user = assignment.getPersonal();
             assignment.setPersonal(user);
         }
 
@@ -95,18 +97,24 @@ public class Assignment_Controller {
     }
 
     @PutMapping(path = "/updateAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Assignment editEntry(@PathVariable("id") int id, @RequestBody Assignment newAssignment){
+    public Assignment editEntry(@PathVariable("id") int id, @RequestBody AssignmentDto newAssignment){
         Optional<Assignment> oldAuftrag = assignment_repo.findById(id);
 
-        oldAuftrag.get().setStatus(newAssignment.getStatus());
-        oldAuftrag.get().setMunicipal(newAssignment.getMunicipal());
+        Optional<Municipal> municipal = municipal_repo.findById(newAssignment.getMunicipalDto());
+        Optional<Status> status = status_repo.findById(newAssignment.getStatusDto());
+        Optional<Costcenter> costCenter = costcenter_repo.findById(newAssignment.getCostCenterDto());
+        List<User> personal = (List<User>)user_repo.findAllById(newAssignment.getPersonal());
+
+
+        oldAuftrag.get().setStatus(status.get());
+        oldAuftrag.get().setMunicipal(municipal.get());
+        oldAuftrag.get().setCostcenter(costCenter.get());
         oldAuftrag.get().setAssignmentDescription(newAssignment.getAssignmentDescription());
         oldAuftrag.get().setEmail(newAssignment.getEmail());
         oldAuftrag.get().setEnd(newAssignment.getEnd());
         oldAuftrag.get().setProgress(newAssignment.getProgress());
-        oldAuftrag.get().setCostcenter(newAssignment.getCostcenter());
         oldAuftrag.get().setLink(newAssignment.getLink());
-        oldAuftrag.get().setPersonal(newAssignment.getPersonal());
+        oldAuftrag.get().setPersonal(personal);
         oldAuftrag.get().setStart(newAssignment.getStart());
 
         return assignment_repo.save(oldAuftrag.get());

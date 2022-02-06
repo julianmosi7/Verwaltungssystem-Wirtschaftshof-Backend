@@ -1,36 +1,37 @@
 package com.example.backend_verwaltungssoftware.DTOs;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class AssignmentDto {
-    private MunicipalDto municipalDto;
-    private CostCenterDto costCenterDto;
+    private int municipalId;
+    private int costCenterId;
     private String email;
     private String path;
     private String link;
+    private String assignmentDescription;
     private String task;
-    private List<UserDto> personal;
+    private List<Integer> personal;
     private Date start;
     private Date end;
     private double progress;
-    private StatusDto statusDto;
+    private int statusId;
     private Boolean approved;
 
-    public MunicipalDto getMunicipalDto() {
-        return municipalDto;
+    public int getMunicipalDto() {
+        return municipalId;
     }
 
     public void setMunicipalDto(MunicipalDto municipalDto) {
-        this.municipalDto = municipalDto;
+        this.municipalId = municipalId;
     }
 
-    public CostCenterDto getCostCenterDto() {
-        return costCenterDto;
+    public int getCostCenterDto() {
+        return costCenterId;
     }
 
     public void setCostCenterDto(CostCenterDto costCenterDto) {
-        this.costCenterDto = costCenterDto;
+        this.costCenterId = costCenterId;
     }
 
     public String getEmail() {
@@ -57,6 +58,14 @@ public class AssignmentDto {
         this.link = link;
     }
 
+    public String getAssignmentDescription(){
+        return assignmentDescription;
+    }
+
+    public void setAssignmentDescription(String assignmentDescription){
+        this.assignmentDescription = assignmentDescription;
+    }
+
     public String getTask() {
         return task;
     }
@@ -65,11 +74,11 @@ public class AssignmentDto {
         this.task = task;
     }
 
-    public List<UserDto> getPersonal() {
+    public List<Integer> getPersonal() {
         return personal;
     }
 
-    public void setPersonal(List<UserDto> personal) {
+    public void setPersonal(List<Integer> personal) {
         this.personal = personal;
     }
 
@@ -98,12 +107,12 @@ public class AssignmentDto {
         this.progress = progress;
     }
 
-    public StatusDto getStatusDto() {
-        return statusDto;
+    public int getStatusDto() {
+        return statusId;
     }
 
     public void setStatusDto(StatusDto statusDto) {
-        this.statusDto = statusDto;
+        this.statusId = statusId;
     }
 
     public Boolean getApproved() {
