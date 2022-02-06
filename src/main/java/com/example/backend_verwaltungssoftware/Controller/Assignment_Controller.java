@@ -32,27 +32,24 @@ public class Assignment_Controller {
     EmailSenderService emailSenderService;
 
     @PostMapping(path = "/newAssignment")
-    public Assignment create_auftrag(@RequestBody Assignment assignment){
+    public Assignment create_auftrag(@RequestBody AssignmentDto assignmentDto){
 
-        if(assignment.getMunicipal() != null){
-            Optional<Municipal> g = municipal_repo.findById(assignment.getMunicipal().getMunicipalId());
-            assignment.setMunicipal(g.get());
-        }
+        Assignment assignment = new Assignment();
 
-        if(assignment.getStatus() != null){
-            Optional<Status> s = status_repo.findById(assignment.getStatus().getStatusId());
-            assignment.setStatus(s.get());
-        }
-
-        if(assignment.getCostcenter() != null){
-            Optional<Costcenter> s = costcenter_repo.findById(assignment.getCostcenter().getCostCenterId());
-            assignment.setCostcenter(s.get());
-        }
-
-        if(assignment.getPersonal() !=null){
-            List<User> user = assignment.getPersonal();
-            assignment.setPersonal(user);
-        }
+        assignment.setEmail(assignmentDto.getEmail());
+        assignment.setLink(assignmentDto.getLink());
+        assignment.setAssignmentDescription(assignmentDto.getAssignmentDescription());
+        assignment.setStart(assignmentDto.getStart());
+        assignment.setEnd(assignmentDto.getEnd());
+        assignment.setProgress(assignmentDto.getProgress());
+        Optional<Municipal> municipal = municipal_repo.findById(assignmentDto.getMunicipalDto());
+        assignment.setMunicipal(municipal.get());
+        Optional<Status> status = status_repo.findById(assignmentDto.getStatusDto());
+        assignment.setStatus(status.get());
+        Optional<Costcenter> costCenter = costcenter_repo.findById(assignmentDto.getCostCenterDto());
+        assignment.setCostcenter(costCenter.get());
+        List<User> personal = (List<User>)user_repo.findAllById(assignmentDto.getPersonal());
+        assignment.setPersonal(personal);
 
         assignment.setApproved(false);
 
