@@ -28,7 +28,10 @@ public class Assignment {
     String assignmentLink;
     String assignmentDescription;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties("assignments")
+    @ManyToMany(cascade = {
+            CascadeType.MERGE
+    })
     @JoinTable(name = "assignment_Personal",
             joinColumns = {@JoinColumn(name = "assignment_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})

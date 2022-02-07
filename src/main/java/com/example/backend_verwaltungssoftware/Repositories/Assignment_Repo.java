@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface Assignment_Repo extends CrudRepository<Assignment, Integer> {
     List<Assignment> findByApprovedIsFalse();
+    List<Assignment> findByApprovedIsTrue();
 }

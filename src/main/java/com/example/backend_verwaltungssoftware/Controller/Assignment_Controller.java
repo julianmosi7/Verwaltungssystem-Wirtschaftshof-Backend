@@ -32,7 +32,7 @@ public class Assignment_Controller {
     EmailSenderService emailSenderService;
 
     @PostMapping(path = "/newAssignment")
-    public Assignment create_auftrag(@RequestBody AssignmentDto assignmentDto){
+    public boolean create_auftrag(@RequestBody AssignmentDto assignmentDto){
 
         Assignment assignment = new Assignment();
 
@@ -53,7 +53,9 @@ public class Assignment_Controller {
 
         assignment.setApproved(false);
 
-        return assignment_repo.save(assignment);
+         assignment_repo.save(assignment);
+
+         return true;
     }
 
     @GetMapping(path = "/addPersonToAssignment/{personID}/{auftragID}/{senderID}")
@@ -133,6 +135,13 @@ public class Assignment_Controller {
     @GetMapping(path = "/getAllNotApproved")
     public List<Assignment> getAllNotApproved(){
         List<Assignment> assignmentList = assignment_repo.findByApprovedIsFalse();
+        return assignmentList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(path = "/getAllApproved")
+    public List<Assignment> getAllApproved(){
+        List<Assignment> assignmentList = assignment_repo.findByApprovedIsTrue();
         return assignmentList;
     }
 }

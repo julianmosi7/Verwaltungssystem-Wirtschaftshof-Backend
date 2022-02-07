@@ -2,6 +2,7 @@ package com.example.backend_verwaltungssoftware.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,7 +25,7 @@ public class User implements Serializable {
     String lastname;
     String email;
     //TODO: loging with username or email?? Mit username
-    @JsonFormat(pattern = "dd.MM.yyyy")
+
     Date birthdate;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_Role",
@@ -41,10 +42,8 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "holiday_id")})
     List<Holiday> holidays;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_Assignment",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "assignment_id")})
+    @JsonIgnoreProperties("personal")
+    @ManyToMany(mappedBy = "personal")
     List<Assignment> assignments;
 
     public User() {

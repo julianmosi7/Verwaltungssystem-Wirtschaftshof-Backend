@@ -1,9 +1,12 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
+import com.example.backend_verwaltungssoftware.DTOs.UserCalenderDto;
 import com.example.backend_verwaltungssoftware.DTOs.UserDto;
+import com.example.backend_verwaltungssoftware.Entities.Assignment;
 import com.example.backend_verwaltungssoftware.Entities.User;
 import com.example.backend_verwaltungssoftware.Entities.Licence;
 import com.example.backend_verwaltungssoftware.Entities.Role;
+import com.example.backend_verwaltungssoftware.Repositories.Assignment_Repo;
 import com.example.backend_verwaltungssoftware.Repositories.User_Repo;
 import com.example.backend_verwaltungssoftware.Repositories.Licence_Repo;
 import com.example.backend_verwaltungssoftware.Repositories.Role_Repo;
@@ -12,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +87,25 @@ public class User_Controller {
     public List<User> getAllUsers(){
         return (List<User>) User_Repo.findAll();
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getAllCal")
+    public List<UserCalenderDto> getAllUsersCal(){
+        List<UserCalenderDto> user = new ArrayList<>();
+        for ( User u: User_Repo.findAll()) {
+            user.add(new UserCalenderDto(u.getUserId(),u.getLastname()));
+        }
+        return user;
+
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getAssignments/{id}")
+    public List<Assignment> getAllUsers(@PathVariable int id){
+         Optional<User> p= User_Repo.findById(id);
+         return p.get().getAssignments();
+    }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/getUserByUsername/{username}")
