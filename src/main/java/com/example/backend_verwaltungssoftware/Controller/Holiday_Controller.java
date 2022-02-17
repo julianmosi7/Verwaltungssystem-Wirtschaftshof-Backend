@@ -1,12 +1,18 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
-import com.example.backend_verwaltungssoftware.Entities.*;
 import com.example.backend_verwaltungssoftware.Repositories.User_Repo;
 import com.example.backend_verwaltungssoftware.Repositories.Holiday_Repo;
+import com.example.backend_verwaltungssoftware.data.dtos.HolidayDto;
+import com.example.backend_verwaltungssoftware.data.entities.HolidayEntity;
+import com.example.backend_verwaltungssoftware.data.entities.UserEntity;
+import com.example.backend_verwaltungssoftware.data.resources.HolidayResource;
+import com.example.backend_verwaltungssoftware.services.HolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,24 +21,22 @@ import java.util.Optional;
 public class Holiday_Controller {
 
     @Autowired
+    HolidayService holidayService;
+
+    @Autowired
     Holiday_Repo holiday_repo;
 
     @Autowired
     User_Repo user_repo;
 
-    @PostMapping(path = "/newHoliday", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Holiday create_auftrag(@RequestBody Holiday holiday){
-        return holiday_repo.save(holiday);
+    @GetMapping(path = "/getAll")
+    public HttpEntity<List<HolidayResource>> getAll(){
+        List<HolidayResource> holidayResources = holidayService.getAll();
+        return new HttpEntity<>(holidayResources);
     }
 
-    @GetMapping(path = "/addHolidayToUser/{UserID}/{HolidayID}")
-    public User addHolidayToUser(@PathVariable("UserID") int UserID, @PathVariable("HolidayID") int HolidayID){
-        Optional<User> benutzer = user_repo.findById(UserID);
-
-        Optional<Holiday> urlaub = holiday_repo.findById(HolidayID);
-
-        benutzer.get().getHolidays().add(urlaub.get());
-
-        return user_repo.save(benutzer.get());
+    @PostMapping(path = "/newHoliday", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public HolidayResource addHoliday(@RequestBody HolidayDto holidayDto){
+        return holidayService.addHoliday(holidayDto);
     }
 }

@@ -1,14 +1,12 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
-import com.example.backend_verwaltungssoftware.Entities.Municipal;
-import com.example.backend_verwaltungssoftware.Entities.Role;
-import com.example.backend_verwaltungssoftware.Repositories.Municipal_Repo;
+import com.example.backend_verwaltungssoftware.data.entities.RoleEntity;
 import com.example.backend_verwaltungssoftware.Repositories.Role_Repo;
+import com.example.backend_verwaltungssoftware.data.resources.RoleResource;
+import com.example.backend_verwaltungssoftware.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,11 +16,11 @@ import java.util.List;
 public class Role_Controller {
 
     @Autowired
-    Role_Repo role_repo;
+    RoleService roleService;
 
-    //@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public List<Role> getAll_Role(){
-        return (List<Role>) role_repo.findAll();
+    @GetMapping(value = "/getAll")
+    public HttpEntity<List<RoleResource>> getAll(){
+        List<RoleResource> roleResources = roleService.getAll();
+        return new HttpEntity<>(roleResources);
     }
 }

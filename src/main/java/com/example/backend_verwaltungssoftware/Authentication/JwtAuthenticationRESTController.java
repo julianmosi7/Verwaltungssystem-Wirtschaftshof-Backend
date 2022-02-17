@@ -1,8 +1,9 @@
 package com.example.backend_verwaltungssoftware.Authentication;
 
-import com.example.backend_verwaltungssoftware.DTOs.UserDto;
-import com.example.backend_verwaltungssoftware.Entities.User;
-import com.example.backend_verwaltungssoftware.Services.UserService;
+import com.example.backend_verwaltungssoftware.data.dtos.UserDto;
+import com.example.backend_verwaltungssoftware.data.entities.UserEntity;
+import com.example.backend_verwaltungssoftware.data.resources.UserResource;
+import com.example.backend_verwaltungssoftware.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,7 @@ public class JwtAuthenticationRESTController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserService benutzerService;
+    private UserService userService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticateDto authenticationRequest) throws Exception{
@@ -50,9 +51,10 @@ public class JwtAuthenticationRESTController {
         }
     }
 
+    //duplicate
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public User saveUser(@RequestBody UserDto userDto){
-        return benutzerService.save(userDto);
+    public UserResource saveUser(@RequestBody UserDto userDto){
+        return userService.addUser(userDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

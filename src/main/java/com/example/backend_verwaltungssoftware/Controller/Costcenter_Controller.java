@@ -1,7 +1,13 @@
 package com.example.backend_verwaltungssoftware.Controller;
-import com.example.backend_verwaltungssoftware.Entities.*;
+;
 import com.example.backend_verwaltungssoftware.Repositories.*;
+import com.example.backend_verwaltungssoftware.data.dtos.CostCenterDto;
+import com.example.backend_verwaltungssoftware.data.entities.CostcenterEntity;
+import com.example.backend_verwaltungssoftware.data.resources.CostCenterResource;
+import com.example.backend_verwaltungssoftware.manager.CostcenterManager;
+import com.example.backend_verwaltungssoftware.services.CostcenterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +18,16 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Costcenter_Controller {
     @Autowired
-    Costcenter_repo costcenter_repo;
-
-
-    @PostMapping(value = "/newCostcenter", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Costcenter create_costcenter(@RequestBody Costcenter costcenter) {
-        return costcenter_repo.save(costcenter);
-    }
+    CostcenterService costcenterService;
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public List<Costcenter> getAll_Costcenter(){
-        List<Costcenter> costcenterList = (List<Costcenter>) costcenter_repo.findAll();
-        return costcenterList;
+    public HttpEntity<List<CostCenterResource>> getAll(){
+        List<CostCenterResource> costCenterResources = costcenterService.getAll();
+        return new HttpEntity<>(costCenterResources);
+    }
+
+    @PostMapping(value = "/newCostcenter", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CostCenterResource addCostcenter(@RequestBody CostCenterDto costCenterDto) {
+        return costcenterService.addCostcenter(costCenterDto);
     }
 }

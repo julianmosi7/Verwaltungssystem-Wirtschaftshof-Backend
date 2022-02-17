@@ -1,6 +1,6 @@
 package com.example.backend_verwaltungssoftware.Authentication;
 
-import com.example.backend_verwaltungssoftware.DTOs.RoleDto;
+import com.example.backend_verwaltungssoftware.data.dtos.RoleDto;
 
 public class AuthenticationDto {
     private int id;

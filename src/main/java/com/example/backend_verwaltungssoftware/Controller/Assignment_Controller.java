@@ -1,14 +1,18 @@
 package com.example.backend_verwaltungssoftware.Controller;
 
-import com.example.backend_verwaltungssoftware.DTOs.AssignmentDto;
-import com.example.backend_verwaltungssoftware.Entities.*;
+import com.example.backend_verwaltungssoftware.data.entities.*;
 import com.example.backend_verwaltungssoftware.Mail.EmailSenderService;
 import com.example.backend_verwaltungssoftware.Repositories.*;
+import com.example.backend_verwaltungssoftware.data.dtos.AssignmentDto;
+import com.example.backend_verwaltungssoftware.data.internalRepresentation.Assignment;
+import com.example.backend_verwaltungssoftware.data.resources.AssignmentResource;
+import com.example.backend_verwaltungssoftware.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Assign;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,8 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Assignment_Controller {
 
+    @Autowired
+    private AssignmentService assignmentService;
     @Autowired
     Assignment_Repo assignment_repo;
     @Autowired
@@ -31,117 +37,58 @@ public class Assignment_Controller {
     @Autowired
     EmailSenderService emailSenderService;
 
-    @PostMapping(path = "/newAssignment")
-    public boolean create_auftrag(@RequestBody AssignmentDto assignmentDto){
-
-        Assignment assignment = new Assignment();
-
-        assignment.setEmail(assignmentDto.getEmail());
-        assignment.setLink(assignmentDto.getLink());
-        assignment.setAssignmentDescription(assignmentDto.getAssignmentDescription());
-        assignment.setStart(assignmentDto.getStart());
-        assignment.setEnd(assignmentDto.getEnd());
-        assignment.setProgress(assignmentDto.getProgress());
-        Optional<Municipal> municipal = municipal_repo.findById(assignmentDto.getMunicipalDto());
-        assignment.setMunicipal(municipal.get());
-        Optional<Status> status = status_repo.findById(assignmentDto.getStatusDto());
-        assignment.setStatus(status.get());
-        Optional<Costcenter> costCenter = costcenter_repo.findById(assignmentDto.getCostCenterDto());
-        assignment.setCostcenter(costCenter.get());
-        List<User> personal = (List<User>)user_repo.findAllById(assignmentDto.getPersonal());
-        assignment.setPersonal(personal);
-
-        assignment.setApproved(false);
-
-         assignment_repo.save(assignment);
-
-         return true;
-    }
-
-    @GetMapping(path = "/addPersonToAssignment/{personID}/{auftragID}/{senderID}")
-    public boolean addPersonToAuftrag(@PathVariable("personID") int pID,
-                                      @PathVariable("auftragID") int aID,
-                                      @PathVariable("senderID") int sID){
-        Optional<User> benutzer = user_repo.findById(pID);
-        Optional<Assignment> auftrag = assignment_repo.findById(aID);
-        Optional<User> sender = user_repo.findById(sID);
-
-/*        if(!auftrag.get().getApproved() || auftrag.get().getApproved() == null){
-            return false;
-        }*/
-
-        auftrag.get().getPersonal().add(benutzer.get());
-        benutzer.get().getAssignments().add(auftrag.get());
-
-        assignment_repo.save(auftrag.get());
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        String tMail = benutzer.get().getEmail();
-        String subject = "Sie wurden zu einem neuen Auftrag hinzugefügt";
-        String text = "Guten Tag " + benutzer.get().getFirstname() + " " + benutzer.get().getLastname() + "! \n" +
-                      "Sie wurden von " + sender.get().getFirstname() + " " + sender.get().getLastname() + " zu einem neuen Auftrag hinzugefügt. \n" +
-                      "Der Titel des Auftrags lautet: " + auftrag.get().getAssignmentDescription() + ".\n" +
-                      "Der Auftrag sollte von " + format.format(auftrag.get().getStart()) + " bis am " + format.format(auftrag.get().getEnd()) + " erledigt werden. \n" +
-                      "Wir wünschen Ihnen ein gutes Gelingen. \n" +
-                      "Ihr Wirtschaftshof Aschachtal!";
-        System.out.println(text);
-        emailSenderService.sendEmail(tMail, text, subject);
-        return true;
-    }
-
-    @DeleteMapping(path = "/deleteAssignment/{assignmentId}")
-    public void deleteAuftrag(@PathVariable("assignmentId") int assignmentId){
-        assignment_repo.deleteById(assignmentId);
-    }
-
-    @PutMapping(path = "/updateAssignment/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Assignment editEntry(@PathVariable("id") int id, @RequestBody AssignmentDto newAssignment){
-        Optional<Assignment> oldAuftrag = assignment_repo.findById(id);
-
-        Optional<Municipal> municipal = municipal_repo.findById(newAssignment.getMunicipalDto());
-        Optional<Status> status = status_repo.findById(newAssignment.getStatusDto());
-        Optional<Costcenter> costCenter = costcenter_repo.findById(newAssignment.getCostCenterDto());
-        List<User> personal = (List<User>)user_repo.findAllById(newAssignment.getPersonal());
-
-
-        oldAuftrag.get().setStatus(status.get());
-        oldAuftrag.get().setMunicipal(municipal.get());
-        oldAuftrag.get().setCostcenter(costCenter.get());
-        oldAuftrag.get().setAssignmentDescription(newAssignment.getAssignmentDescription());
-        oldAuftrag.get().setEmail(newAssignment.getEmail());
-        oldAuftrag.get().setEnd(newAssignment.getEnd());
-        oldAuftrag.get().setProgress(newAssignment.getProgress());
-        oldAuftrag.get().setLink(newAssignment.getLink());
-        oldAuftrag.get().setPersonal(personal);
-        oldAuftrag.get().setStart(newAssignment.getStart());
-
-        return assignment_repo.save(oldAuftrag.get());
-    }
-
-    @GetMapping(path = "/approveAssignment/{id}")
-    public Assignment approveEntry(@PathVariable("id") int id){
-        Optional<Assignment> a = assignment_repo.findById(id);
-        a.get().setApproved(true);
-        return assignment_repo.save(a.get());
-    }
-
     @GetMapping(path = "/getAll")
-    public List<Assignment> getAllEntries(){
-        List<Assignment> assignmentList = (List<Assignment>) assignment_repo.findAll();
-        return assignmentList;
+    public HttpEntity<List<AssignmentResource>> getAll(){
+        List<AssignmentResource> assignmentResources = assignmentService.getAll();
+        return new HttpEntity<>(assignmentResources);
     }
 
     @GetMapping(path = "/getAllNotApproved")
-    public List<Assignment> getAllNotApproved(){
-        List<Assignment> assignmentList = assignment_repo.findByApprovedIsFalse();
-        return assignmentList;
+    public HttpEntity<List<AssignmentResource>> getAllNotApproved(){
+        List<AssignmentResource> assignmentResources = assignmentService.getAllNotApproved();
+        return new HttpEntity<>(assignmentResources);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/getAllApproved")
-    public List<Assignment> getAllApproved(){
-        List<Assignment> assignmentList = assignment_repo.findByApprovedIsTrue();
-        return assignmentList;
+    public HttpEntity<List<AssignmentResource>> getAllApproved(){
+        List<AssignmentResource> assignmentResources = assignmentService.getAllApproved();
+        return new HttpEntity<>(assignmentResources);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(path = "/getAssignments/{userId}")
+    public HttpEntity<List<AssignmentResource>> getAssignmentsOfUser(@PathVariable int userId){
+        List<AssignmentResource> assignmentResources = assignmentService.getAssignmentsOfUser(userId);
+        return new HttpEntity<>(assignmentResources);
+    }
+
+    @PostMapping(path = "/newAssignment")
+    public AssignmentResource addAssignment(@RequestBody AssignmentDto assignmentDto){
+        return assignmentService.addAssignment(assignmentDto);
+    }
+
+    @DeleteMapping(path = "/deleteAssignment/{assignmentId}")
+    public AssignmentResource deleteAssignment(@PathVariable("assignmentId") int assignmentId){
+        return assignmentService.deleteAssignment(assignmentId);
+    }
+
+    @PutMapping(path = "/editAssignment/{assignmentId}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public AssignmentResource editAssignment(@PathVariable("assignmentId") int assignmentId, @RequestBody AssignmentDto newAssignmentDto){
+        return assignmentService.editAssignment(assignmentId, newAssignmentDto);
+    }
+
+    @GetMapping(path = "/approveAssignment/{assignmentId}")
+    public AssignmentResource approveEntry(@PathVariable("assignmentId") int assignmentId){
+        return assignmentService.approveAssignment(assignmentId);
+    }
+
+    @GetMapping(path = "/addPersonToAssignment/{personID}/{auftragID}/{senderID}")
+    public AssignmentResource addPersonToAssignment(@PathVariable("personID") int personId,
+                                            @PathVariable("assignmentId") int assignmentId,
+                                            @PathVariable("senderID") int senderId){
+        return assignmentService.addPersonToAssignment(personId, assignmentId, senderId);
     }
 }
